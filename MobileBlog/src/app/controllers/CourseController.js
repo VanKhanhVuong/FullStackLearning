@@ -1,15 +1,21 @@
-class CourseController {
+const BaseController = require("../controllers/BaseController");
+const Course = require("../models/Course");
+const { mongooseToObject } = require('../../util/mongoose');
 
-  // [GET] /course/:slug
-  show(req, res) {
-    
-  }
+class CourseController extends BaseController {
 
-  // Always end script
-  // [GET] /course
-  index(req, res) {
-    res.render("course");
-  }
+    // [GET] /courses/:slug
+    show(req, res, next) {
+      Course.findOne({slug: req.params.slug})
+        .then(course => {
+          if (!course) {
+            // 404
+            return next(new Error("Course not found"));
+          }
+          res.render('courses/show', { course: mongooseToObject(course) });
+        })
+        .catch(error => next(error));
+    }
 }
 
 module.exports = new CourseController();

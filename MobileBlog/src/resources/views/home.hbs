@@ -1,23 +1,35 @@
 <div class="mt-4">
   <div class="row">
 
-    {{!-- Begin Loop --}}
+    {{! Begin Loop }}
     {{#each courses}}
-    <div class="col-sm-6 col-lg-4">
-      <div class="card card-course-item" style="width: 18rem;">
-        <img src="{{this.image}}" class="card-img-top" alt="{{this.name}}" />
-        <div class="card-body">
-          <h5 class="card-title">{{this.name}}</h5>
-          <p class="card-text">{{this.description}}</p>
-          <a href="#" class="btn btn-primary">Xem khóa học</a>
+      <div class="col-sm-6 col-lg-4">
+        <div class="card card-course-item" style="width: 18rem;">
+          
+          <!-- Link to course detail page -->
+          <a href="/courses/{{this.slug}}">
+            <img
+              src="{{this.image}}"
+              class="card-img-top"
+              alt="{{this.name}}"
+            />
+          </a>
+
+          <div class="card-body">
+            <a href="/courses/{{this.slug}}">
+              <h5 class="card-title">{{this.name}}</h5>
+            </a>
+
+            <p class="card-text">{{this.description}}</p>
+            <a href="#" class="btn btn-primary">Xem khóa học</a>
+          </div>
         </div>
       </div>
-    </div>
     {{/each}}
-    {{!-- End Loop --}}
+    {{! End Loop }}
 
   </div>
 </div>
 
-{{!-- Document Handlebars - Evaluation context --}}
-{{!-- https://handlebarsjs.com/guide/#nested-input-objects --}}
+{{! Document Handlebars - Evaluation context }}
+{{! https://handlebarsjs.com/guide/#nested-input-objects }}
