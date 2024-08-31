@@ -1,9 +1,9 @@
-class SiteController {
-    
-  // Always end script
-  // [GET] /home
-  index(req, res) {
-    res.render("home");
+const BaseController = require('../controllers/BaseController');
+const Course = require('../models/Course');
+
+class SiteController extends BaseController {
+  constructor() {
+    super(Course);
   }
 }
 
