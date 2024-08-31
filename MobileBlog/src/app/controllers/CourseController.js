@@ -1,21 +1,40 @@
 const BaseController = require("../controllers/BaseController");
 const Course = require("../models/Course");
-const { mongooseToObject } = require('../../util/mongoose');
+const { mongooseToObject } = require("../../util/mongoose");
+const slugify = require('slugify');
 
 class CourseController extends BaseController {
+  // [GET] /courses/:slug
+  show(req, res, next) {
+    Course.findOne({ slug: req.params.slug })
+      .then((course) => {
+        if (!course) {
+          // 404
+          return next(new Error("Course not found"));
+        }
+        res.render("courses/show", { course: mongooseToObject(course) });
+      })
+      .catch((error) => next(error));
+  }
+  // [GET] /course/create
+  create(req, res, next) {
+    res.render("courses/create");
+  }
 
-    // [GET] /courses/:slug
-    show(req, res, next) {
-      Course.findOne({slug: req.params.slug})
-        .then(course => {
-          if (!course) {
-            // 404
-            return next(new Error("Course not found"));
-          }
-          res.render('courses/show', { course: mongooseToObject(course) });
-        })
-        .catch(error => next(error));
-    }
+  // [POST] /course/store
+  store(req, res, next) {
+    const formData = req.body;
+    formData.image = "https://files.fullstack.edu.vn/f8-prod/courses/6.png";
+    formData.slug = slugify(formData.name, { lower: true, strict: true });
+    const course = new Course(formData);
+    course.save()
+      .then(() => res.redirect('/'))
+      .catch((error) => next(error));
+  }
+  
 }
 
 module.exports = new CourseController();
+
+// Document: 
+// https://expressjs.com/en/4x/api.html#res.redirect

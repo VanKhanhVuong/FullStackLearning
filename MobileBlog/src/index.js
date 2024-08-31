@@ -15,6 +15,10 @@ db.connect();
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Body Parser Middleware for JSON and URL encoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // HTTP Logger
 app.use(morgan('combined'));
 
