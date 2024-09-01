@@ -14,6 +14,9 @@ route.get('/:id/edit', courseController.edit);
 // Update Course
 route.put('/:id', courseController.update);
 
+// Delete Course
+route.delete('/:id', courseController.destroy);
+
 // Always end script
 route.get('/:slug', courseController.show);
 
