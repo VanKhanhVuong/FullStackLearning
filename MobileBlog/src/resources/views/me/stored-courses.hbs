@@ -1,0 +1,32 @@
+<div class="mt-4">
+  <h3>Khóa học của tôi</h3>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tên khóa học</th>
+        <th scope="col" colspan="2">Thời gian tạo</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        {{!-- Begin Loop --}}
+        {{#each courses}}
+            <tr>
+                <th scope="row">{{ sum @index 1}}</th>      {{!-- Use Helpers function Handlebar --}}
+                <td>{{this.name}}</td>
+                <td>{{formatDate this.createAt "YYYY-MM-DD HH:mm:ss"}}</td>
+                <td>
+                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+                    <a href="" class="btn btn-link">Xóa</a>
+                </td>
+            </tr>
+        {{/each}}
+
+    </tbody>
+  </table>
+</div>
+
+{{!-- Document --}}
+{{!--   https://handlebarsjs.com/guide/builtin-helpers.html#each
+        https://handlebarsjs.com/guide/#custom-helpers                  => Index Genaration --}}

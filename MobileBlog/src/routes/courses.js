@@ -8,6 +8,12 @@ route.get('/create', courseController.create);
 // Store a new Course
 route.post('/store', courseController.store);
 
+// Get Course for update Course
+route.get('/:id/edit', courseController.edit);
+
+// Update Course
+route.put('/:id', courseController.update);
+
 // Always end script
 route.get('/:slug', courseController.show);
 

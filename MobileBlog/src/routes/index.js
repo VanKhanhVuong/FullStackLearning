@@ -1,9 +1,12 @@
+const meRoute = require('./me');
 const coursesRoute = require('./courses');
 const siteRoute = require('./site');
 
 function route(app) {
 
-    // News route
+    app.use('/me', meRoute);
+
+    // Course route
     app.use('/courses', coursesRoute); 
 
     // Home route always end script

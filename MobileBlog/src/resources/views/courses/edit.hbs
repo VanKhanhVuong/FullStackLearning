@@ -1,12 +1,12 @@
 <div class="mt-4">
-  <h3>Thêm mới</h3>
+  <h3>Cập nhật khóa học</h3>
 
-  <form class="mt-4" method="POST" action="/courses/store">
+  <form class="mt-4" method="POST" action="/courses/{{course._id}}?_method=PUT">
     <div class="form-group">
       <label for="name">Tên</label>
       <input
-        type="text"
         class="form-control"
+        value="{{course.name}}"
         id="name"
         name="name"
       />
@@ -18,9 +18,9 @@
         class="form-control"
         id="description"
         name="description"
-      ></textarea>
+      >{{course.description}}</textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary">Thêm</button>
+    <button type="submit" class="btn btn-primary">Sửa</button>
   </form>
 </div>

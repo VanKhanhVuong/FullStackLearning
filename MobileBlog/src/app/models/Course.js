@@ -10,4 +10,5 @@ const Course = new Schema({
     slug: { type: String, unique: true },
   });
 
-  module.exports = mongoose.model('Course', Course);;
+  module.exports = mongoose.model('Course', Course);
+  

@@ -4,6 +4,7 @@ const { mongooseToObject } = require("../../util/mongoose");
 const slugify = require('slugify');
 
 class CourseController extends BaseController {
+  
   // [GET] /courses/:slug
   show(req, res, next) {
     Course.findOne({ slug: req.params.slug })
@@ -31,10 +32,27 @@ class CourseController extends BaseController {
       .then(() => res.redirect('/'))
       .catch((error) => next(error));
   }
-  
+
+  // [GET] /courses/:id/edit
+  edit(req, res, next) {
+    Course.findById(req.params.id)
+      .then(course => res.render('courses/edit', { 
+        course: mongooseToObject(course),
+      }))
+      .catch((error) => next(error));
+  }
+
+  // [PUT] /courses/:id
+  update(req, res, next) {
+    Course.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      .then(() => res.redirect(`/me/stored/courses`))
+      .catch((error) => next(error));
+  }
 }
 
 module.exports = new CourseController();
 
-// Document: 
-// https://expressjs.com/en/4x/api.html#res.redirect
+// Document:
+// https://www.npmjs.com/package/slugify              [General Slug]
+// https://expressjs.com/en/4x/api.html#res.redirect  [Redirect page]
+// https://mongoosejs.com/docs/5.x/docs/queries.html  [Update with ID item]
