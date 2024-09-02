@@ -14,8 +14,14 @@ route.get('/:id/edit', courseController.edit);
 // Update Course
 route.put('/:id', courseController.update);
 
-// Delete Course
+// Soft Delete Course
 route.delete('/:id', courseController.destroy);
+
+// Restore Course
+route.patch('/:id/restore', courseController.restore);
+
+// Force Delete Course
+route.delete('/:id/force', courseController.forceDestroy);
 
 // Always end script
 route.get('/:slug', courseController.show);

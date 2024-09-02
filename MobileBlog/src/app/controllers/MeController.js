@@ -12,6 +12,17 @@ class MeController extends BaseController {
     }))
     .catch(err => next(err));
   }
+
+  // [GET] /me/trash/courses
+  trashCourses(req, res, next) {
+    Course.findWithDeleted({deleted:true})
+      .then(courses => {
+        res.render('me/trash-courses', {
+          courses: multipleMongooseToObject(courses)
+        });
+      })
+      .catch(err => next(err));
+  }
 }
 
 module.exports = new MeController();
