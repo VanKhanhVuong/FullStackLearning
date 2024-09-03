@@ -11,7 +11,7 @@
       <tr>
         <th scope="col">STT</th>
         <th scope="col">Tên khóa học</th>
-        <th scope="col" colspan="2">Thời gian tạo</th>
+        <th scope="col" colspan="2">Đã xóa lúc</th>
       </tr>
     </thead>
     <tbody>
@@ -19,9 +19,9 @@
         {{!-- Begin Loop --}}
         {{#each courses}}
             <tr>
-                <th scope="row">{{ sum @index 1}}</th>      {{!-- Use Helpers function Handlebar --}}
+                <th scope="row">{{ sum @index 1}}</th>                        {{!-- Use Helpers function Handlebar => Display No. --}}
                 <td>{{this.name}}</td>
-                <td>{{formatDate this.createAt "YYYY-MM-DD HH:mm:ss"}}</td>
+                <td>{{formatDate this.deletedAt "YYYY-MM-DD HH:mm:ss"}}</td>  {{!-- Use Helpers function Handlebar => Display Deleted Time--}}
                 <td>
                     <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
                     <a href="" class="btn btn-link btn-red" data-toggle="modal" data-id="{{this._id}}" data-name="{{this.name}}" data-target="#delete-course-modal">Xóa vĩnh viễn</a>

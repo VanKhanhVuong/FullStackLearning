@@ -3,7 +3,9 @@
   <div>
     <h3>Khóa học của tôi</h3>
     <div class="d-flex justify-content-between">
-        <a href="/me/trash/courses">Thùng rác</a>
+        {{#if deleteCount}}
+        <a href="/me/trash/courses">Thùng rác [{{deleteCount}}]</a>
+        {{/if}}
         <a class="btn-create" href="/courses/create">Thêm khóa học</a>
     </div>
     
@@ -15,7 +17,7 @@
       <tr>
         <th scope="col">STT</th>
         <th scope="col">Tên khóa học</th>
-        <th scope="col" colspan="2">Thời gian tạo</th>
+        <th scope="col" colspan="2">Đã tạo lúc</th>
       </tr>
     </thead>
     <tbody>
