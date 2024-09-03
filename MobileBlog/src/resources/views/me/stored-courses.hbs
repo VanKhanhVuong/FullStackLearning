@@ -1,60 +1,112 @@
-<div class="mt-4">
+<form class="mt-4" name="container-form" method="POST" action="/courses/handle-from-actions">
 
   <div>
     <h3>Khóa học của tôi</h3>
     <div class="d-flex justify-content-between">
-        {{#if deleteCount}}
+      {{#if deleteCount}}
         <a href="/me/trash/courses">Thùng rác [{{deleteCount}}]</a>
-        {{/if}}
-        <a class="btn-create" href="/courses/create">Thêm khóa học</a>
+      {{/if}}
+      <a class="btn-create" href="/courses/create">Thêm khóa học</a>
     </div>
-    
-  </div>
 
+    <div class="mt-4 d-flex align-items-center">
+      {{! Check box Choose ALL}}
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="checkbox-all"
+        />
+        <label class="form-check-label" for="checkbox-all">
+          Chọn tất cả
+        </label>
+      </div>
+
+      {{! Select Action for check box }}
+      <select
+        class="form-control form-control-sm checkbox-select-all-options"
+        name="action"
+        required
+      >
+        <option value="">--- Chọn hành động ---</option>
+        <option value="delete">Xóa</option>
+      </select>
+
+      <button class="btn btn-primary btn-sm summit-check-all-btn" disabled >Áp dụng lựa chọn</button>
+    </div>
+  </div>
 
   <table class="table mt-4">
     <thead>
       <tr>
         <th scope="col">STT</th>
         <th scope="col">Tên khóa học</th>
-        <th scope="col" colspan="2">Đã tạo lúc</th>
+        <th scope="col" colspan="3">Đã tạo lúc</th>
       </tr>
     </thead>
     <tbody>
 
-        {{!-- Begin Loop --}}
-        {{#each courses}}
-            <tr>
-                <th scope="row">{{ sum @index 1}}</th>      {{!-- Use Helpers function Handlebar --}}
-                <td>{{this.name}}</td>
-                <td>{{formatDate this.createAt "YYYY-MM-DD HH:mm:ss"}}</td>
-                <td>
-                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
-                    <a href="" class="btn btn-link btn-red" data-toggle="modal" data-id="{{this._id}}" data-name="{{this.name}}" data-target="#delete-course-modal">Xóa</a>
-                </td>
-            </tr>
-        {{else}}
-          <tr>
-              <td colspan="4" class="text-center">
-                Bạn chưa đăng khóa học nào.
-                <a href="/courses/create">Đăng khóa học</a>
-              </td>
+      {{! Begin Loop }}
+      {{#each courses}}
+        <tr>
+          {{! Display Checkbox to Remove Each Item }}
+          <td>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="courseIds[]"
+                value="{{this._id}}"
+              />
+            </div>
+          </td>
 
-          </tr>
-        {{/each}}
+          {{! Display No. }}
+          <th scope="row">{{sum @index 1}}</th>
+
+          {{! Display Name and Time Add Item }}
+          <td>{{this.name}}</td>
+          <td>{{formatDate this.createAt "YYYY-MM-DD HH:mm:ss"}}</td>
+          <td>
+            <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+            <a
+              href=""
+              class="btn btn-link btn-red"
+              data-toggle="modal"
+              data-id="{{this._id}}"
+              data-name="{{this.name}}"
+              data-target="#delete-course-modal"
+            >Xóa</a>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="4" class="text-center">
+            Bạn chưa đăng khóa học nào.
+            <a href="/courses/create">Đăng khóa học</a>
+          </td>
+
+        </tr>
+      {{/each}}
 
     </tbody>
   </table>
-</div>
+</form>
 
-{{!-- Confirm Delete Course --}}
+{{! Confirm Delete Course }}
 
 <div id="delete-course-modal" class="modal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Xóa khóa học ? </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -63,47 +115,80 @@
       </div>
       <div class="modal-footer">
 
-        <button id="btn-delete-course" type="button" class="btn btn-danger">Xóa bỏ</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        
+        <button id="btn-delete-course" type="button" class="btn btn-danger">Xóa
+          bỏ</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Hủy</button>
+
       </div>
     </div>
   </div>
 </div>
 
-{{!-- Delete Hidden From with name use DOM --}}
-<form name="delete-course-from" method="POST"></form>
+{{! Delete Hidden From with name use DOM }}
+<form name="delete-course-form" method="POST"></form>
 
-{{!-- Script For Delete Course Button --}}
+{{! Script for Delete Course Button }}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      
-      var idCourse;
-      var deleteFrom = document.forms['delete-course-from'];
-      var btnDeleteCourse = document.getElementById('btn-delete-course');
+  document.addEventListener("DOMContentLoaded", function() {
+    var courseId;
+    var deleteForm = document.forms['delete-course-form'];
+    //var containerForm = document.forms['container-form'];
+    var containerForm = $('form[name="container-form"]');
+    var btnDeleteCourse = document.getElementById('btn-delete-course');
+    var checkboxAll = $('#checkbox-all');
+    var courseItemCheckbox = $('input[name="courseIds[]"]');
+    var checkAllSummitButton = $('.summit-check-all-btn');
 
-      // Delete Course Button Click Event
-      $('#delete-course-modal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        idCourse = button.data('id');
-        var name = button.data('name');
-        
-        // Update content in Modal
-        var modal = $(this);
-        modal.find('.modal-body p').text('Bạn có chắc chắn muốn xóa khóa học ' + name + ' này ?');
-      });
+    // Event listener for showing the delete course modal
+    $('#delete-course-modal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget);
+      courseId = button.data('id');
+      var courseName = button.data('name');
 
-      btnDeleteCourse.onclick = function() {
-        var deleteUrl = '/courses/' + idCourse + '?_method=DELETE';
-        deleteFrom.action = deleteUrl;
-        deleteFrom.submit();
-      }
+      // Update the modal content with the course name
+      var modal = $(this);
+      modal.find('.modal-body p').text('Bạn có chắc chắn muốn xóa khóa học ' + courseName + ' này?');
     });
+
+    // Event listener for delete course button click
+    btnDeleteCourse.onclick = function() {
+      var deleteUrl = '/courses/' + courseId + '?_method=DELETE';
+      deleteForm.action = deleteUrl;
+      deleteForm.submit();
+    };
+
+    // Event listener for checkbox-all change course button click
+    checkboxAll.change(function(event) {
+      var isCheckAll = $(this).prop('checked');
+      courseItemCheckbox.prop('checked', isCheckAll ? true : false);
+      renderCheckAllSummitButton()
+    });
+
+    // Event listener for onChange checkbox clicked course button click
+    courseItemCheckbox.change(function(event) {
+      var allChecked = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length;
+      checkboxAll.prop('checked', allChecked? true : false);
+      renderCheckAllSummitButton()
+    });
+
+    // Enable the Apply Button when at least one checkbox is checked
+    function renderCheckAllSummitButton() {
+      var checkedCount = $('input[name="courseIds[]"]:checked').length;
+      checkAllSummitButton.attr('disabled', checkedCount > 0 ? false : true);
+    }
+  });
 </script>
 
-{{!-- Document --}}
-{{!--   https://handlebarsjs.com/guide/builtin-helpers.html#each
-        https://handlebarsjs.com/guide/#custom-helpers                  => Index Genaration --}}
+{{! Document }}
+{{!   Handlebar helpers:
+        https://handlebarsjs.com/guide/builtin-helpers.html#each
+        https://handlebarsjs.com/guide/#custom-helpers  => Index Generation }}
 
-{{!--   https://getbootstrap.com/docs/4.6/components/modal/             
-        Search => data-whatever  => Use passing data                                        --}}
+{{!   Bootstrap Modal:
+        https://getbootstrap.com/docs/4.6/components/modal/             
+        Search => data-whatever  => Use passing data
+}}

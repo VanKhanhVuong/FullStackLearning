@@ -32,6 +32,19 @@ class CourseController extends BaseController {
       .catch((error) => next(error));
   }
 
+  // [POST] /courses/handle-from-actions
+  handleFromActions(req, res, next) {
+    switch (req.body.action) { 
+      case "delete":
+        Course.delete({ _id: { $in: req.body.courseIds } })
+          .then(() => res.redirect("back"))
+          .catch((error) => next(error));
+        break;
+      default:
+        res.json({message: 'Invalid action'});
+    }
+  }
+
   // [GET] /courses/:id/edit
   edit(req, res, next) {
     Course.findById(req.params.id)

@@ -8,6 +8,9 @@ route.get('/create', courseController.create);
 // Store a new Course
 route.post('/store', courseController.store);
 
+// Summit From Action [Delete Courses]
+route.post('/handle-from-actions', courseController.handleFromActions);
+
 // Get Course for update Course
 route.get('/:id/edit', courseController.edit);
 
