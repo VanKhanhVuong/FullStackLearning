@@ -1,0 +1,251 @@
+/* Reset CSS */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/*
+    Từ ngoài vào trong 
+    Từ trên xuống dưới
+    Từ tổng quan đến chi tiết
+*/
+
+/*
+    Vị trí 
+    Kích thước
+    Màu sắc
+    Kiểu dáng (kiểu chữ, hình vuông hay hình tròn,....)
+*/
+
+/*
+    Lưu ý:
+    Các thẻ chỉ khoảng 3 thẻ để dễ maintain sau này.
+*/
+
+/* 
+    Khi thực hiện hover thì thực hiện các bước
+    1. Đầu tiên hãy hiển thị (display) nó ra trước
+        để mình CSS hoàn tất hết rồi thì.
+    2. CSS để ẩn nó đi
+    3. Cuối cùng là làm sao đó khi hover thì nó hiển thị lên
+*/
+
+#main {
+     
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 46px;
+    background-color: black;
+
+    /* Set trục tọa độ z */
+    z-index: 1;
+}
+    #nav {
+        display: inline-block;  /* Thuộc tính mặc định của nó chỉ là block 
+                                    => sẽ chiếm hết width của cha nó 
+                                    => như thế nó sẽ đẩy search bar đi xuống 1 hàng
+                                    => chuyển nó về inline-block để chiều dài con nó 
+                                        đến đâu thì cấp width cho nó đến đó thôi*/
+    }
+
+    #nav, .subnav {
+        list-style-type: none;
+    }
+        #nav > li {
+            display: inline-block;
+        }
+
+        #nav li {
+            position: relative;
+        }
+            /* Ý nghĩa thẻ a con trực tiếp của thẻ li */
+            /*      mà thẻ li con trực tiếp của thẻ nav */
+            #nav > li > a {
+                color: #fff;
+                text-transform: uppercase;      /* => Biến chữ thường thành chữ hoa */
+            }
+
+            /* Ý nghĩa là tất cả thẻ a */
+            /* thuộc li thuộc nav đều ảnh hưởng */
+            #nav li a {
+                text-decoration: none;
+                line-height: 46.5px;
+                padding: 0 24px;
+                display: block;
+            }
+
+            /* Vì icon là font nên ta dùng font size  */
+            #nav .nav-arrow-down {
+                font-size: 14px;
+            }
+
+            /* DI VÀO (HOVER) li và hiện ul con của nó với id là subnav */
+            /* Nó sẽ ghi đè #nav .subnav {
+                                display: none;
+                            } */
+            #nav li:hover .subnav {
+                display: block;
+                cursor: pointer;
+                background-color: #fff;
+            }
+
+            /* Cách gộp 2 selector bằng dấu phẩy ","*/
+            /* Nhằm mục đích là gọn code tránh duplicate code */
+            #nav > li:hover > a,
+            #nav .subnav li:hover a {
+                color: #000;
+                background-color: #ccc;
+            }
+
+            #nav .subnav {
+                display: none;
+                min-width: 160px;           /* Tối thiểu chiều ngang là 160px */
+                top: 100%;                  /* Để đề phòng cửa sổ trình duyệt sai thì ta nên set phòng hờ các thuộc tính
+                                                Lấy top là tối đa chiều cao của cha nó là nav
+                                                                                ông nội nó là headder 
+                                                Cho left = 0 như chiếu theo cha của nó */
+                left: 0;
+                position: absolute;
+                color: #000;
+                text-decoration: none;
+                box-shadow: 0 0  rgba(0, 0, 0, 0.3);
+            }
+
+            #nav .subnav a {
+                color: #000;
+                padding: 0 16px;
+                line-height: 38.5px;
+            }
+
+
+#header .search-btn,
+#header .bell-btn,
+#header .cart-btn {
+    float: right;                   /* Bản chất của thẻ div là block 
+                                        => chiếm hết width
+                                        => set float => right để nó nằm 
+                                            bên phải của cha nó là header*/
+    padding: 0 21px;                /* Set padding cho cái icon nằm giữa button search */    
+    cursor: pointer;
+}
+
+
+#header .bell-icon,
+#header .search-icon,
+#header .cart-icon {
+    color: #fff;
+    font-size: 20px;
+    line-height: 46px;
+}
+
+#header .search-btn:hover {
+    background-color: #f44336 !important;
+}
+
+#header .bell-btn:hover {
+    background-color: yellowgreen !important;
+}
+
+#header .cart-btn:hover {
+    background-color: orange !important;
+}
+
+#slider {
+    position: relative; /* Chuyển relative để set nó về điềm ngoài cùng bên trái */
+    margin-top: 46px;
+    padding-top: 50%;
+    background: url('https://bizweb.dktcdn.net/100/349/716/files/du-lich-mang-den-2-ngay-1-dem-1.jpg?v=1711073096332') top center / cover no-repeat ;
+}
+    #slider .text-content {
+        position: absolute;
+        bottom: 47px;
+        color: #fff;
+
+        /* Canh giữa đoạn text */
+        /* left: 50%;
+        transform: translateX(-50%); => Cách 1 */
+
+        /* left: 0;
+        right: 0;     => Cách 2*/
+
+        width: 100%;
+        text-align: center;
+    }
+
+    #slider .text-content .text-heading  {
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    #slider .text-content .text-description  {
+        font-size: 15px;
+        margin-top: 25px;
+    }
+
+#content {
+
+}
+
+    #content .content-section{
+        width: 800px;
+        padding-top: 64px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+        #content .section-heading {
+            font-size: 30px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #content .section-sub-heading {
+            font-size: 15px;
+            margin-top: 25px;
+            font-style: italic;
+            color: #ccc;
+        }
+
+        #content .about-text {
+            margin-top: 25px;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        #content .section-heading,
+        #content .section-sub-heading {
+            text-align: center;
+        }
+
+        #content .image-list {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px; /* Khoảng cách giữa các image-item */
+        }
+        
+        #content .image-item {
+            flex: 1;
+            max-width: 280px; /* Giới hạn chiều rộng tối đa của mỗi image-item */
+        }
+        
+        #content .image-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+        }
+
+#footer {
+
+}
