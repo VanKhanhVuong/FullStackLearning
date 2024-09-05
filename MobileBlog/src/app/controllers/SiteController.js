@@ -1,6 +1,7 @@
 const BaseController = require("../controllers/BaseController");
 const Course = require("../models/Course");
 const { multipleMongooseToObject } = require('../../util/mongoose');
+const config = require('../../config/config');
 
 class SiteController extends BaseController {
   index(req, res, next) {

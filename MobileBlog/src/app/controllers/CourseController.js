@@ -9,7 +9,6 @@ class CourseController extends BaseController {
     Course.findOne({ slug: req.params.slug })
       .then((course) => {
         if (!course) {
-          // 404
           return next(new Error("Course not found"));
         }
         res.render("courses/show", { course: mongooseToObject(course) });
