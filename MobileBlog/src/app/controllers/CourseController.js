@@ -2,6 +2,7 @@ const BaseController = require("../controllers/BaseController");
 const Course = require("../models/Course");
 const { mongooseToObject } = require("../../util/mongoose");
 const slugify = require("slugify");
+const upload = require("../../config/upload");
 
 class CourseController extends BaseController {
   // [GET] /courses/:slug
@@ -22,13 +23,29 @@ class CourseController extends BaseController {
 
   // [POST] /course/store
   store(req, res, next) {
-    req.body.image = "https://files.fullstack.edu.vn/f8-prod/courses/6.png";
-    req.body.slug = slugify(req.body.name, { lower: true, strict: true });
-    const course = new Course(req.body);
-    course
-      .save()
-      .then(() => res.redirect("/me/stored/courses"))
-      .catch((error) => next(error));
+    upload.single('image')(req, res, async (err) => {
+      if (err) {
+        return next(err);
+      }
+      console.log(req);
+      try {
+        const { name, description } = req.body;
+        const image = req.file ? `/img/${req.file.filename}` : null;
+        const slug = slugify(name, { lower: true, strict: true });
+
+        const course = new Course({
+          name,
+          description,
+          image,
+          slug
+        });
+
+        await course.save();
+        res.redirect("/me/stored/courses");
+      } catch (error) {
+        next(error);
+      }
+    });
   }
 
   // [POST] /courses/handle-from-actions
