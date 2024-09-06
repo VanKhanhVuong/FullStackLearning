@@ -3,6 +3,7 @@ const path = require('path');
 const config = require("../config/config");
 require('dotenv').config({ path: getEnvPath() });
 
+// Get environment
 function getEnvPath() {
     return path.resolve(__dirname, `../.env.${config.env}`);
 }

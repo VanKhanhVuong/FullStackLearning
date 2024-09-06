@@ -1,0 +1,49 @@
+<div class="mt-4">
+  <h3>Thêm mới bài học</h3>
+
+  <form class="mt-4" method="POST" action="/lessons/store">
+    <div class="form-group">
+      <label for="title">Tiêu đề</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="content">Nội dung</label>
+      <textarea
+        class="form-control"
+        id="content"
+        name="content"
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="author">Tác giả</label>
+      <textarea
+        class="form-control"
+        id="author"
+        name="author"
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="course">Khóa học</label>
+      <select class="form-control" id="course" name="course" required>
+          <option value="">Chọn khóa học</option>
+          {{#each courses}}
+            <option value="{{this._id}}">{{this.name}}</option>
+          {{/each}}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Thêm học</button>
+  </form>
+
+</div>

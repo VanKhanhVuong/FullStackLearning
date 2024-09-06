@@ -1,10 +1,10 @@
-const BaseController = require("../controllers/BaseController");
+// const BaseController = require("../controllers/BaseController");
 const Course = require("../models/Course");
 const { mongooseToObject } = require("../../util/mongoose");
 const slugify = require("slugify");
 const upload = require("../../config/upload");
 
-class CourseController extends BaseController {
+class CourseController {
   // [GET] /courses/:slug
   show(req, res, next) {
     Course.findOne({ slug: req.params.slug })
@@ -27,7 +27,7 @@ class CourseController extends BaseController {
       if (err) {
         return next(err);
       }
-      console.log(req);
+      console.log(req.body);
       try {
         const { name, description } = req.body;
         const image = req.file ? `/img/${req.file.filename}` : null;

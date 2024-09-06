@@ -1,8 +1,8 @@
-const BaseController = require("./BaseController");
+// const BaseController = require("./BaseController");
 const Course = require("../models/Course");
 const { multipleMongooseToObject } = require("../../util/mongoose");
 
-class MeController extends BaseController {
+class MeController {
   // [GET] /me/stored/courses
   storedCourses(req, res, next) {
     Promise.all([Course.find({}), Course.countDocumentsWithDeleted({deleted:true})])
